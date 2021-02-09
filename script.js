@@ -1,3 +1,32 @@
+function CommentsRecord({
+  id,
+  text,
+  username,
+  imageurl,
+  date,
+  point,
+} = sample) {
+  this.id = id;
+  this.text = text;
+  this.username = username;
+  this.imageurl = imageurl;
+  this.date = date;
+  this.point = point;
+}
+
+const sample = {
+  id: 4,
+  text: "It was enjoyable indeed.",
+  username: "Sahar.mk_",
+  imageurl:
+    "https://media-cdn.tripadvisor.com/media/photo-l/01/2e/70/9e/avatar069.jpg",
+  date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}`,
+  point: 1,
+};
+
+const record = new CommentsRecord();
+console.log(record);
+
 function Comments() {
   this.records = [
     {
@@ -31,13 +60,20 @@ function Comments() {
       point: 11,
     },
   ];
+
   this.like = function (id) {
     this.records[id - 1].point++;
   };
+
   this.dislike = function (id) {
     this.records[id - 1].point--;
   };
-  this.add = function () {};
+
+  this.add = function (name, text) {
+    const record = new CommentsRecord();
+    this.records.push(record);
+  };
+
   this.remove = function (comment) {
     const index = this.records.indexOf(comment);
     if (index !== -1) {
@@ -51,6 +87,16 @@ function ElementBuilder(name) {
 
   this.text = function (text) {
     this.element.textContent = text;
+    return this;
+  };
+
+  this.type = function (text) {
+    this.element.type = text;
+    return this;
+  };
+
+  this.placeHolder = function (text) {
+    this.element.placeholder = text;
     return this;
   };
 
@@ -114,7 +160,6 @@ function Painter(container) {
         .className("text")
         .appendTo(card)
         .build();
-
       const remove = builder
         .create("button")
         .appendTo(card)
@@ -125,7 +170,6 @@ function Painter(container) {
           paint();
         })
         .build();
-
       builder.create("br").appendTo(card);
       builder.create("br").appendTo(card);
       const date = builder
@@ -191,6 +235,40 @@ function Painter(container) {
         .className("thumbsDown")
         .appendTo(rate);
     });
+    const formGroup = builder
+      .create("div")
+      .appendTo(main)
+      .className("form-group")
+      .build();
+    const userName = builder
+      .create("input")
+      .appendTo(formGroup)
+      .type("text")
+      .placeHolder("Username...")
+      .className("username")
+      .build();
+    builder.create("br").appendTo(formGroup).build();
+    const textArea = builder
+      .create("textarea")
+      .appendTo(formGroup)
+      .type("text")
+      .placeHolder("Add your comment here ...")
+      .className("textArea")
+      .build();
+    const submit = builder
+      .create("button")
+      .text("Submit")
+      .type("button")
+      .onclick(() => {
+        const name = userName.value;
+        const text = textArea.value;
+        commentsObj.add(name, text);
+        console.log(commentsObj.records);
+        paint();
+      })
+      .className("submit")
+      .appendTo(formGroup)
+      .build();
   }
 
   this.init = function () {
