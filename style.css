@@ -72,6 +72,10 @@
   margin: 0px 5px;
 }
 
+.thumbsDown , .thumbsUp {
+  cursor: pointer;
+}
+
 .card .text {
   height: 60%;
   margin: 2px 20px;

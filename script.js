@@ -15,13 +15,18 @@ function CommentsRecord({
 }
 
 const sample = {
-  id: 4,
+  id: Math.floor(Math.random() * 100),
   text: "It was enjoyable indeed.",
   username: "Sahar.mk_",
   imageurl:
     "https://media-cdn.tripadvisor.com/media/photo-l/01/2e/70/9e/avatar069.jpg",
   date: `${new Date().getFullYear()}-${new Date().getMonth() + 1}`,
-  point: 1,
+  point: 0,
+};
+
+const sample2 = {
+  name: "Sahar",
+  text: "This trip was a blast!",
 };
 
 const record = new CommentsRecord();
@@ -61,16 +66,20 @@ function Comments() {
     },
   ];
 
-  this.like = function (id) {
-    this.records[id - 1].point++;
+  this.like = function (comment) {
+    const index = this.records.indexOf(comment);
+    this.records[index].point++;
   };
 
-  this.dislike = function (id) {
-    this.records[id - 1].point--;
+  this.dislike = function (comment) {
+    const index = this.records.indexOf(comment);
+    this.records[index].point--;
   };
 
   this.add = function (name, text) {
     const record = new CommentsRecord();
+    record.username = name;
+    record.text = text;
     this.records.push(record);
   };
 
@@ -220,7 +229,7 @@ function Painter(container) {
         .create("div")
         .text(`👍`)
         .onclick(() => {
-          commentsObj.like(comment.id);
+          commentsObj.like(comment);
           paint();
         })
         .className("thumbsUp")
@@ -229,7 +238,7 @@ function Painter(container) {
         .create("div")
         .text(`👎`)
         .onclick(() => {
-          commentsObj.dislike(comment.id);
+          commentsObj.dislike(comment);
           paint();
         })
         .className("thumbsDown")
@@ -260,8 +269,12 @@ function Painter(container) {
       .text("Submit")
       .type("button")
       .onclick(() => {
-        const name = userName.value;
-        const text = textArea.value;
+        let name = userName.value;
+        let text = textArea.value;
+        if (name === "" || text === "") {
+          name = "Random user";
+          text = "You did not enter any text";
+        }
         commentsObj.add(name, text);
         console.log(commentsObj.records);
         paint();
