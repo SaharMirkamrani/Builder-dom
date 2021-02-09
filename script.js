@@ -32,15 +32,14 @@ function Comments() {
     },
   ];
   this.like = function (id) {
-    this.records[id - 1].point ++ ;
-    
+    this.records[id - 1].point++;
   };
   this.dislike = function (id) {
-    this.records[id - 1].point -- ;
+    this.records[id - 1].point--;
   };
   this.add = function () {};
-  this.remove = function (record) {
-    const index = this.records.indexOf(record);
+  this.remove = function (comment) {
+    const index = this.records.indexOf(comment);
     if (index !== -1) {
       this.records.splice(index, 1);
     }
@@ -116,6 +115,18 @@ function Painter(container) {
         .appendTo(card)
         .build();
 
+      const remove = builder
+        .create("button")
+        .appendTo(card)
+        .text("x")
+        .className("btn")
+        .onclick(() => {
+          commentsObj.remove(comment);
+          paint();
+        })
+        .build();
+
+      builder.create("br").appendTo(card);
       builder.create("br").appendTo(card);
       const date = builder
         .create("div")
@@ -165,7 +176,7 @@ function Painter(container) {
         .create("div")
         .text(`👍`)
         .onclick(() => {
-          commentsObj.like(comment.id)
+          commentsObj.like(comment.id);
           paint();
         })
         .className("thumbsUp")
@@ -174,7 +185,7 @@ function Painter(container) {
         .create("div")
         .text(`👎`)
         .onclick(() => {
-          commentsObj.dislike(comment.id)
+          commentsObj.dislike(comment.id);
           paint();
         })
         .className("thumbsDown")
