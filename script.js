@@ -24,14 +24,6 @@ const sample = {
   point: 0,
 };
 
-const sample2 = {
-  name: "Sahar",
-  text: "This trip was a blast!",
-};
-
-const record = new CommentsRecord();
-console.log(record);
-
 function Comments() {
   this.records = [
     {
@@ -169,7 +161,7 @@ function Painter(container) {
         .className("text")
         .appendTo(card)
         .build();
-      const remove = builder
+      builder
         .create("button")
         .appendTo(card)
         .text("x")
@@ -181,7 +173,7 @@ function Painter(container) {
         .build();
       builder.create("br").appendTo(card);
       builder.create("br").appendTo(card);
-      const date = builder
+      builder
         .create("div")
         .text(`${comment.date}`)
         .className("date")
@@ -197,13 +189,13 @@ function Painter(container) {
         .className("image")
         .appendTo(left)
         .build();
-      const img = builder
+      builder
         .create("img")
         .url(`${comment.imageurl}`)
         .appendTo(image)
         .className("image-itself")
         .build();
-      const name = builder
+      builder
         .create("div")
         .text(`${comment.username}`)
         .className("name")
@@ -214,7 +206,7 @@ function Painter(container) {
         .className("right")
         .appendTo(head)
         .build();
-      const points = builder
+      builder
         .create("div")
         .className("points")
         .appendTo(right)
@@ -225,7 +217,7 @@ function Painter(container) {
         .className("rate")
         .appendTo(right)
         .build();
-      const thumbsUp = builder
+      builder
         .create("div")
         .text(`👍`)
         .onclick(() => {
@@ -234,7 +226,7 @@ function Painter(container) {
         })
         .className("thumbsUp")
         .appendTo(rate);
-      const thumbsDown = builder
+      builder
         .create("div")
         .text(`👎`)
         .onclick(() => {
@@ -264,7 +256,7 @@ function Painter(container) {
       .placeHolder("Add your comment here ...")
       .className("textArea")
       .build();
-    const submit = builder
+    builder
       .create("button")
       .text("Submit")
       .type("button")
@@ -276,7 +268,6 @@ function Painter(container) {
           text = "You did not enter any text";
         }
         commentsObj.add(name, text);
-        console.log(commentsObj.records);
         paint();
       })
       .className("submit")
